@@ -1,0 +1,21 @@
+
+.board {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 800px;
+	height: 800px;
+	display: grid;
+	grid-template-rows: 100px ;
+	justify-content: center;
+	align-items: center;
+
+
+}
+
+.row1{
+	/*border: 5px solid red;
+	color: yellow;
+	height: 50px;*/
+}
