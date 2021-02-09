@@ -4,12 +4,15 @@ const Square = (props) => {
 		width: "100px",
 		height: "100px",
 		background: ((sumOfIndices%2 === 0) ? "#141414" : "#AAA"),
-		color: "white"
+		color: "white",
+		fontSize: "18px",
+		border: "none",
+		borderRadius: "5px"
 	}
 
 	return(
 
-		<button style={style}> {props.info.piece} </button>
+		<button style={style} onClick={() => props.onButtonClick(props.info)}> {props.info.piece} </button>
 	)
 }
 
