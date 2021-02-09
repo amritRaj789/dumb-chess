@@ -9,9 +9,10 @@ const Square = (props) => {
 
 	return(
 
-		<button style={style}> {`${props.index[0]}, ${props.index[1]}`} </button>
+		<button style={style}> {props.info.piece} </button>
 	)
 }
 
 export default Square;
 
+// {`${props.index[0]}, ${props.index[1]}`}
