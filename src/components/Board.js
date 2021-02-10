@@ -8,48 +8,9 @@ for(let i = 0; i <= 7; i++){
 	squaresArray[i] = new Array(8).fill({filled: false});
 }
 
-class Board extends Component {
-
-	constructor(){
-		super();
-		this.state = {
-			squares: squaresArray
-		}
-	}
-
-	onButtonClick = (obj) => {
-		if(obj.filled)
-			window.alert(`Hello this is a ${obj.color} ${obj.piece} piece`);
-	}
-
-	checkPieceType = (obj) => {
-		if(obj.piece === "rook1" || obj.piece === "rook2")
-			return "rook"
-		else if(obj.piece === "knight1" || obj.piece === "knight2")
-			return "knight"
-		else if(obj.piece === "bishop1" || obj.piece === "bishop2")
-			return "bishop"
-		else if(obj.piece === "king")
-			return "king"
-		else if(obj.piece === "queen")
-			return "queen"
-		else if(obj.piece === "knight1" || obj.piece === "knight2")
-			return "knight"
-	}
-
-	render(){
-		return(
-			<div className="board">
-			{this.state.squares.map((row, rowIndex) => {
-				return <div>{row.map((element, colIndex ) => <Square key={[rowIndex, colIndex]} info={element} onButtonClick={this.onButtonClick} index={[rowIndex, colIndex]}/>)}</div>
-			})}
-			</div>
-		)
-	}
-
-}
 
 
+// For the initial rendering of the 32 pieces
 squaresArray[0][0] = {
 	color: "white",
 	piece: "rook1",
@@ -146,5 +107,83 @@ for(let i = 0; i <= 7; i++){
 	}
 }
 
+
+
+
+class Board extends Component {
+
+	constructor(){
+		super();
+		this.state = {
+			squares: squaresArray,
+			squareClicked: null
+		}
+	}
+
+	onButtonClick = (info, index) => {
+		console.log("info: ", info);
+		console.log("index: ", index);
+		//Case 1: Selecting a piece first time
+		if(this.state.squareClicked === null && info.filled){
+			// window.alert(`Hello this is a ${info.color} ${info.piece} piece`);
+			this.setState({squareClicked: {
+				color: info.color,
+				piece: info.piece,
+				index: index
+			}})
+		}
+
+		//Case 2: Moving a piece to an empty square
+		else if (this.state.squareClicked !== null && !info.filled){
+			const tempSquares = [...this.state.squares];
+			//updating the empty clicked square with previously selected piece info
+			tempSquares[index[0]][index[1]] = {
+				color: this.state.squareClicked.color,
+				piece: this.state.squareClicked.piece,
+				filled: true
+			}
+			const resetSquareObj = {filled: false}
+			const resetSquareIndex = this.state.squareClicked.index;
+			//removing the piece from its old location
+			tempSquares[resetSquareIndex[0]][resetSquareIndex[1]] = resetSquareObj;
+			//update the state
+			this.setState({squares: tempSquares});
+		}
+		
+
+	}
+
+	
+	checkPieceType = (obj) => {
+		if(obj.piece === "rook1" || obj.piece === "rook2")
+			return "rook"
+		else if(obj.piece === "knight1" || obj.piece === "knight2")
+			return "knight"
+		else if(obj.piece === "bishop1" || obj.piece === "bishop2")
+			return "bishop"
+		else if(obj.piece === "king")
+			return "king"
+		else if(obj.piece === "queen")
+			return "queen"
+		else if(obj.piece === "knight1" || obj.piece === "knight2")
+			return "knight"
+
+	}
+
+	render(){
+		return(
+			<div className="board">
+			{this.state.squares.map((row, rowIndex) => {
+				return (
+					<div className="row">
+						{row.map((element, colIndex ) => <Square key={[rowIndex, colIndex]} info={element} onButtonClick={this.onButtonClick} index={[rowIndex, colIndex]}/>)}
+					</div>
+				)
+			})}
+			</div>
+		)
+	}
+
+}
 
 export default Board;

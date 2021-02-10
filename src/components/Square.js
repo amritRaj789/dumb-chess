@@ -7,12 +7,12 @@ const Square = (props) => {
 		color: "white",
 		fontSize: "18px",
 		border: "none",
-		borderRadius: "5px"
+		borderRadius: "5px",
 	}
 
 	return(
 
-		<button style={style} onClick={() => props.onButtonClick(props.info)}> {props.info.piece} </button>
+		<button style={style} onClick={() => props.onButtonClick(props.info, props.index)}> {props.info.piece} </button>
 	)
 }
 
