@@ -5,7 +5,7 @@ import './Board.css';
 // pawn, knight, king, queen, bishop, rook
 let squaresArray = new Array(8);
 for(let i = 0; i <= 7; i++){
-	squaresArray[i] = new Array(8).fill({filled: false});
+	squaresArray[i] = new Array(8).fill({filled: false, color: "none", piece: "abcd"});
 }
 
 
@@ -142,15 +142,13 @@ class Board extends Component {
 				piece: this.state.squareClicked.piece,
 				filled: true
 			}
-			const resetSquareObj = {filled: false}
+			const resetSquareObj = {filled: false, color: "none", piece: "abcd"}
 			const resetSquareIndex = this.state.squareClicked.index;
 			//removing the piece from its old location
 			tempSquares[resetSquareIndex[0]][resetSquareIndex[1]] = resetSquareObj;
 			//update the state
 			this.setState({squares: tempSquares});
 		}
-		
-
 	}
 
 	
