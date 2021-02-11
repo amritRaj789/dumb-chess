@@ -148,6 +148,10 @@ class Board extends Component {
 			tempSquares[resetSquareIndex[0]][resetSquareIndex[1]] = resetSquareObj;
 			//update the state
 			this.setState({squares: tempSquares});
+
+			// Updating the sqaureClicked state to null
+			this.setState({squareClicked: null});
+
 		}
 	}
 
