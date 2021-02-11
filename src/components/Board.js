@@ -153,6 +153,33 @@ class Board extends Component {
 			this.setState({squareClicked: null});
 
 		}
+
+		// Case 3: Moving a piece to an occupied square
+		else if(this.state.sqaureClicked !== null && info.filled){
+			//case a: pieces are of same color
+			if(info.color === this.state.squareClicked.color){
+				this.setState({squareClicked: null});
+			}
+			//case b: pieces are of different color
+			else {
+				const tempSquares = [...this.state.squares];
+				//updating the empty clicked square with previously selected piece info
+				tempSquares[index[0]][index[1]] = {
+					color: this.state.squareClicked.color,
+					piece: this.state.squareClicked.piece,
+					filled: true
+				}
+				const resetSquareObj = {filled: false, color: "none", piece: "abcd"}
+				const resetSquareIndex = this.state.squareClicked.index;
+				//removing the piece from its old location
+				tempSquares[resetSquareIndex[0]][resetSquareIndex[1]] = resetSquareObj;
+				//update the state
+				this.setState({squares: tempSquares});
+
+				// Updating the sqaureClicked state to null
+				this.setState({squareClicked: null});
+			}
+		}
 	}
 
 	
