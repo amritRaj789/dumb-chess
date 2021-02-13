@@ -223,6 +223,11 @@ class Board extends Component {
 					else
 						array = [[-1,-1]];
 				}
+				//diagonal move to take opponent's piece
+				if(this.state.squares[row-1][col-1] && this.state.squares[row-1][col-1].filled)
+					array.push([row-1, col-1]);
+				if(this.state.squares[row-1][col+1] && this.state.squares[row-1][col+1].filled)
+					array.push([row-1, col+1]);
 			}
 
 			//case: white pawn piece
@@ -245,6 +250,10 @@ class Board extends Component {
 					else
 						array = [[-1,-1]];
 				}
+				if(this.state.squares[row+1][col-1] && this.state.squares[row+1][col-1].filled)
+					array.push([row+1, col-1]);
+				if(this.state.squares[row+1][col+1] && this.state.squares[row+1][col+1].filled)
+					array.push([row+1, col+1]);
 			}
 		}
 		this.setState({squaresAllowed: array});
