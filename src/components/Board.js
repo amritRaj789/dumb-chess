@@ -108,7 +108,6 @@ for(let i = 0; i <= 7; i++){
 }
 
 const indexInArray = (index, array) => {
-	console.log("inside indexInArray function, index and array are: ", index, array)
 	for(let element of array){
 		if(index[0] === element[0] && index[1] === element[1])
 			return true;
@@ -202,7 +201,6 @@ class Board extends Component {
 		const piece = this.checkPieceType(obj);
 		let array;
 		const [row, col] = location;
-		console.log("inside calculateSquaresAllowed function, row and column are: ", row, col)
 		if(piece === "pawn"){
 			//case : black pawn piece
 			if(obj.color === "black"){
@@ -226,7 +224,28 @@ class Board extends Component {
 						array = [[-1,-1]];
 				}
 			}
+
 			//case: white pawn piece
+			else{
+				if(row === 1){
+					if(!this.state.squares[2][col].filled){
+						if(this.state.squares[3][col].filled){
+							array = [[2, col]];
+						}
+						else
+							array = [[2, col], [3, col]];
+					}
+					else
+						array = [[-1,-1]];
+				}
+				//if pawns are not at first row there is only one square allowed
+				else{
+					if(!this.state.squares[row+1][col].filled)
+						array = [[row+1, col]];
+					else
+						array = [[-1,-1]];
+				}
+			}
 		}
 		this.setState({squaresAllowed: array});
 		return;
