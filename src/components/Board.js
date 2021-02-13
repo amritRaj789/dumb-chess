@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Square from './Square.js';
 import './Board.css';
+import {movesForPawn} from './pieces/Pawn';
 
 // pawn, knight, king, queen, bishop, rook
 let squaresArray = new Array(8);
@@ -140,6 +141,7 @@ class Board extends Component {
 			this.calculateSquaresAllowed(info, index);
 			return;
 		}
+		// Check if the destination square is valid as per the piece's movement rules
 		if(!(indexInArray(index, this.state.squaresAllowed))){
 			this.setState({squareClicked: null});
 			this.setState({squaresAllowed: []})
@@ -200,62 +202,11 @@ class Board extends Component {
 	calculateSquaresAllowed = (obj, location) => {
 		const piece = this.checkPieceType(obj);
 		let array;
-		const [row, col] = location;
 		if(piece === "pawn"){
-			//case : black pawn piece
-			if(obj.color === "black"){
-				//if pawns are at first row there are 2 pos. allowed
-				if(row === 6){
-					if(!this.state.squares[5][col].filled){
-						if(this.state.squares[4][col].filled){
-							array = [[5, col]];
-						}
-						else
-							array = [[5, col], [4, col]];
-					}
-					else
-						array = [[-1,-1]];
-				}
-				//if pawns are not at first row there is only one square allowed
-				else{
-					if(!this.state.squares[row-1][col].filled)
-						array = [[row-1, col]];
-					else
-						array = [[-1,-1]];
-				}
-				//diagonal move to take opponent's piece
-				if(this.state.squares[row-1][col-1] && this.state.squares[row-1][col-1].filled)
-					array.push([row-1, col-1]);
-				if(this.state.squares[row-1][col+1] && this.state.squares[row-1][col+1].filled)
-					array.push([row-1, col+1]);
-			}
-
-			//case: white pawn piece
-			else{
-				if(row === 1){
-					if(!this.state.squares[2][col].filled){
-						if(this.state.squares[3][col].filled){
-							array = [[2, col]];
-						}
-						else
-							array = [[2, col], [3, col]];
-					}
-					else
-						array = [[-1,-1]];
-				}
-				//if pawns are not at first row there is only one square allowed
-				else{
-					if(!this.state.squares[row+1][col].filled)
-						array = [[row+1, col]];
-					else
-						array = [[-1,-1]];
-				}
-				if(this.state.squares[row+1][col-1] && this.state.squares[row+1][col-1].filled)
-					array.push([row+1, col-1]);
-				if(this.state.squares[row+1][col+1] && this.state.squares[row+1][col+1].filled)
-					array.push([row+1, col+1]);
-			}
+			const movesForPawnObj = movesForPawn(this.state.squares);
+			array = movesForPawnObj.calculateSquares(obj, location);
 		}
+
 		this.setState({squaresAllowed: array});
 		return;
 	}
@@ -277,7 +228,6 @@ class Board extends Component {
 			return "queen"
 		else 
 			return "pawn"
-
 	}
 
 	render(){
