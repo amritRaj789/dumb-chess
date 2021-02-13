@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Square from './Square.js';
 import './Board.css';
 import {movesForPawn} from './pieces/Pawn';
+import {movesForRook} from './pieces/Rook';
 
 // pawn, knight, king, queen, bishop, rook
 let squaresArray = new Array(8);
@@ -157,7 +158,7 @@ class Board extends Component {
 				piece: this.state.squareClicked.piece,
 				filled: true
 			}
-			const resetSquareObj = {filled: false, color: "none", piece: "abcd"}
+			const resetSquareObj = {filled: false, color: "none", piece: "abcd"};
 			const resetSquareIndex = this.state.squareClicked.index;
 			//removing the piece from its old location
 			tempSquares[resetSquareIndex[0]][resetSquareIndex[1]] = resetSquareObj;
@@ -206,7 +207,9 @@ class Board extends Component {
 			const movesForPawnObj = movesForPawn(this.state.squares);
 			array = movesForPawnObj.calculateSquares(obj, location);
 		}
-
+		else if(piece === "rook"){
+			array = movesForRook(this.state.squares).calculateSquares(location);
+		}
 		this.setState({squaresAllowed: array});
 		return;
 	}

@@ -8,40 +8,50 @@ export const movesForRook = (passedArray) => {
 		}
 
 		calculateSquares = (location) => {
-			let array = [[-1,-1]];;
+			let array = [[-1,-1]];
+			let curRow;
+			let curCol;
 			const [row, col] = location;
 			let squareArray = this.squares;
 
 			// move up
-			let currentRow = row+1;
-			let currentCol = col;
-			while(squareArray[currentRow][currentCol] && !squareArray[currentRow][currentCol].filled){
-				array.push([currentRow, currentCol]);
-				currentRow++;
+			curRow = row+1;
+			curCol = col;
+			while(this.checkIndexLimit(curRow, curCol)  && !squareArray[curRow][curCol].filled){
+				array.push([curRow, curCol]);
+				curRow++;
 			}
 			// move down
-			let currentRow = row-1;
-			let currentCol = col;
-			while(squareArray[currentRow][currentCol] && !squareArray[currentRow][currentCol].filled){
-				array.push([currentRow, currentCol]);
-				currentRow--;
+			curRow = row-1;
+			curCol = col;
+			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+				array.push([curRow, curCol]);
+				curRow--;
 			}
 			// move left
-			let currentRow = row;
-			let currentCol = col-1;
-			while(squareArray[currentRow][currentCol] && !squareArray[currentRow][currentCol].filled){
-				array.push([currentRow, currentCol]);
-				currentCol--;
+			curRow = row;
+			curCol = col-1;
+			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+				array.push([curRow, curCol]);
+				curCol--;
 			}
 			// move right
-			let currentRow = row;
-			let currentCol = col+1;
-			while(squareArray[currentRow][currentCol] && !squareArray[currentRow][currentCol].filled){
-				array.push([currentRow, currentCol]);
-				currentCol++;
+			curRow = row;
+			curCol = col+1;
+			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+				array.push([curRow, curCol]);
+				curCol++;
 			}
 
 			return array;
+		}
+
+		checkIndexLimit = (row, col) => {
+			if(row <= 7 && row >= 0){
+				if(col <= 7 && col >= 0)
+					return true
+			}
+			return false;
 		}
 	}
 
