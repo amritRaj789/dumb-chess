@@ -17,28 +17,44 @@ export const movesForRook = (passedArray) => {
 			// move up
 			curRow = row+1;
 			curCol = col;
-			while(this.checkIndexLimit(curRow, curCol)  && !squareArray[curRow][curCol].filled){
+			while(this.checkIndexLimit(curRow, curCol)){
+				if(squareArray[curRow][curCol].filled){
+					array.push([curRow, curCol]);
+					break;
+				}
 				array.push([curRow, curCol]);
 				curRow++;
 			}
 			// move down
 			curRow = row-1;
 			curCol = col;
-			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+			while(this.checkIndexLimit(curRow, curCol)){
+				if(squareArray[curRow][curCol].filled){
+					array.push([curRow, curCol]);
+					break;
+				}
 				array.push([curRow, curCol]);
 				curRow--;
 			}
 			// move left
 			curRow = row;
 			curCol = col-1;
-			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+			while(this.checkIndexLimit(curRow, curCol)){
+				if(squareArray[curRow][curCol].filled){
+					array.push([curRow, curCol]);
+					break;
+				}
 				array.push([curRow, curCol]);
 				curCol--;
 			}
 			// move right
 			curRow = row;
 			curCol = col+1;
-			while(this.checkIndexLimit(curRow, curCol) && !squareArray[curRow][curCol].filled){
+			while(this.checkIndexLimit(curRow, curCol)){
+				if(squareArray[curRow][curCol].filled){
+					array.push([curRow, curCol]);
+					break;
+				}
 				array.push([curRow, curCol]);
 				curCol++;
 			}
