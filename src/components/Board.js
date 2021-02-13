@@ -107,7 +107,14 @@ for(let i = 0; i <= 7; i++){
 	}
 }
 
-
+const indexInArray = (index, array) => {
+	console.log("inside indexInArray function, index and array are: ", index, array)
+	for(let element of array){
+		if(index[0] === element[0] && index[1] === element[1])
+			return true;
+	}
+	return false;
+}
 
 
 class Board extends Component {
@@ -116,7 +123,8 @@ class Board extends Component {
 		super();
 		this.state = {
 			squares: squaresArray,
-			squareClicked: null
+			squareClicked: null,
+			squaresAllowed: []
 		}
 	}
 
@@ -125,16 +133,22 @@ class Board extends Component {
 		console.log("index: ", index);
 		//Case 1: Selecting a piece first time
 		if(this.state.squareClicked === null && info.filled){
-			// window.alert(`Hello this is a ${info.color} ${info.piece} piece`);
 			this.setState({squareClicked: {
 				color: info.color,
 				piece: info.piece,
 				index: index
-			}})
+			}});
+			this.calculateSquaresAllowed(info, index);
+			return;
+		}
+		if(!(indexInArray(index, this.state.squaresAllowed))){
+			this.setState({squareClicked: null});
+			this.setState({squaresAllowed: []})
+			return
 		}
 
 		//Case 2: Moving a piece to an empty square
-		else if (this.state.squareClicked !== null && !info.filled){
+		if (this.state.squareClicked !== null && !info.filled){
 			const tempSquares = [...this.state.squares];
 			//updating the empty clicked square with previously selected piece info
 			tempSquares[index[0]][index[1]] = {
@@ -156,10 +170,12 @@ class Board extends Component {
 
 		// Case 3: Moving a piece to an occupied square
 		else if(this.state.sqaureClicked !== null && info.filled){
+
 			//case a: pieces are of same color
 			if(info.color === this.state.squareClicked.color){
 				this.setState({squareClicked: null});
 			}
+
 			//case b: pieces are of different color
 			else {
 				const tempSquares = [...this.state.squares];
@@ -182,7 +198,44 @@ class Board extends Component {
 		}
 	}
 
-	
+	calculateSquaresAllowed = (obj, location) => {
+		const piece = this.checkPieceType(obj);
+		let array;
+		const [row, col] = location;
+		console.log("inside calculateSquaresAllowed function, row and column are: ", row, col)
+		if(piece === "pawn"){
+			//case : black pawn piece
+			if(obj.color === "black"){
+				//if pawns are at first row there are 2 pos. allowed
+				if(row === 6){
+					if(!this.state.squares[5][col].filled){
+						if(this.state.squares[4][col].filled){
+							array = [[5, col]];
+						}
+						else
+							array = [[5, col], [4, col]];
+					}
+					else
+						array = [[-1,-1]];
+				}
+				//if pawns are not at first row there is only one square allowed
+				else{
+					if(!this.state.squares[row-1][col].filled)
+						array = [[row-1, col]];
+					else
+						array = [[-1,-1]];
+				}
+			}
+			//case: white pawn piece
+		}
+		this.setState({squaresAllowed: array});
+		return;
+	}
+
+/*	checkIfSquareFilled = (location) => {
+		if(this.state.squares[location[0]][location[1]].filled)
+	}*/
+
 	checkPieceType = (obj) => {
 		if(obj.piece === "rook1" || obj.piece === "rook2")
 			return "rook"
@@ -194,8 +247,8 @@ class Board extends Component {
 			return "king"
 		else if(obj.piece === "queen")
 			return "queen"
-		else if(obj.piece === "knight1" || obj.piece === "knight2")
-			return "knight"
+		else 
+			return "pawn"
 
 	}
 
