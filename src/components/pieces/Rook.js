@@ -74,8 +74,3 @@ export const movesForRook = (passedArray) => {
 	const createdObj = new calculateSquaresForRook(passedArray);
 	return createdObj;
 }
-
-
-
-
-

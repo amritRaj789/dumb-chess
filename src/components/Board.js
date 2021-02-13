@@ -10,8 +10,6 @@ for(let i = 0; i <= 7; i++){
 	squaresArray[i] = new Array(8).fill({filled: false, color: "none", piece: "abcd"});
 }
 
-
-
 // For the initial rendering of the 32 pieces
 squaresArray[0][0] = {
 	color: "white",
@@ -117,7 +115,6 @@ const indexInArray = (index, array) => {
 	return false;
 }
 
-
 class Board extends Component {
 
 	constructor(){
@@ -214,9 +211,6 @@ class Board extends Component {
 		return;
 	}
 
-/*	checkIfSquareFilled = (location) => {
-		if(this.state.squares[location[0]][location[1]].filled)
-	}*/
 
 	checkPieceType = (obj) => {
 		if(obj.piece === "rook1" || obj.piece === "rook2")
