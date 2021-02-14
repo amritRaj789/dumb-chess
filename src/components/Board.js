@@ -4,7 +4,7 @@ import './Board.css';
 import {movesForPawn} from './pieces/Pawn';
 import {movesForRook} from './pieces/Rook';
 import {movesForBishop} from './pieces/Bishop';
-// import {movesForQueen} from './pieces/Queen';
+import {movesForQueen} from './pieces/Queen';
 
 
 // pawn, knight, king, queen, bishop, rook
@@ -213,9 +213,9 @@ class Board extends Component {
 		else if(piece === "bishop"){
 			array = movesForBishop(this.state.squares).calculateSquares(location);
 		}
-		/*else if(piece === "queen"){
+		else if(piece === "queen"){
 			array = movesForQueen(this.state.squares).calculateSquares(location);
-		}*/
+		}
 		this.setState({squaresAllowed: array});
 		return;
 	}
