@@ -3,6 +3,9 @@ import Square from './Square.js';
 import './Board.css';
 import {movesForPawn} from './pieces/Pawn';
 import {movesForRook} from './pieces/Rook';
+import {movesForBishop} from './pieces/Bishop';
+// import {movesForQueen} from './pieces/Queen';
+
 
 // pawn, knight, king, queen, bishop, rook
 let squaresArray = new Array(8);
@@ -207,6 +210,12 @@ class Board extends Component {
 		else if(piece === "rook"){
 			array = movesForRook(this.state.squares).calculateSquares(location);
 		}
+		else if(piece === "bishop"){
+			array = movesForBishop(this.state.squares).calculateSquares(location);
+		}
+		/*else if(piece === "queen"){
+			array = movesForQueen(this.state.squares).calculateSquares(location);
+		}*/
 		this.setState({squaresAllowed: array});
 		return;
 	}
